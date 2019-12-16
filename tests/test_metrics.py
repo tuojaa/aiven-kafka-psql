@@ -18,3 +18,16 @@ class TestMetrics(unittest.TestCase):
 
         total = cpu['user']+cpu['system']+cpu['idle']
         self.assertAlmostEqual(total, 1.0)
+
+    def test_get_memory_usage(self):
+        mem = metrics.get_memory_usage()
+        self.assertTrue(type(mem) is dict)
+
+        self.assertIn('used', mem)
+        self.assertIn('avail', mem)
+
+        self.assertTrue(type(mem['used']) is float)
+        self.assertTrue(type(mem['avail']) is float)
+
+        total = mem['used']+mem['avail']
+        self.assertAlmostEqual(total, 1.0)
