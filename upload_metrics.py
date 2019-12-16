@@ -11,7 +11,7 @@ class Uploader(object):
 
     def _get_hostname(self):
         """
-        Get unique hostname for this installation. Used to distinquish data from multiple hosts running this script
+        Get unique hostname for this installation. Used to distinguish data from multiple hosts running this script
 
         :return: unique hostname
         """
