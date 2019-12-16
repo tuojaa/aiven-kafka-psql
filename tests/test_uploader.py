@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timedelta
 
 from producer import MetricProducer
 from uploader import Uploader
@@ -46,8 +47,9 @@ class TestUploader(unittest.TestCase):
         self.assertIsNotNone(conn.data)
 
         self.assertEqual(conn.topic, u.topic)
-        self.assertDictEqual({
-            "host": u.hostname,
-            "metrics": {"test": mock_metric_data}
-        }, conn.data)
-
+        self.assertEqual(conn.data['host'], u.hostname)
+        self.assertEqual(conn.data['metrics'], {"test": mock_metric_data})
+        self.assertIn('timestamp', conn.data)
+        self.assertTrue(type(conn.data['timestamp']), str)
+        timestamp = datetime.strptime(conn.data['timestamp'], "%Y-%m-%dT%H:%M:%S.%f")
+        self.assertTrue(datetime.now() - timestamp < timedelta(minutes=1))
