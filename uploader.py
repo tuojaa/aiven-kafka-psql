@@ -1,3 +1,4 @@
+import datetime
 import socket
 
 
@@ -34,5 +35,6 @@ class Uploader(object):
         metrics = self.producer.collect_metrics()
         self.connection.send(self.topic, {
             'host': self.hostname,
+            'timestamp': datetime.datetime.now().isoformat(),
             'metrics': metrics
         })
