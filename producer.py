@@ -2,6 +2,9 @@ from metrics import get_cpu_usage
 
 
 class MetricProducer(object):
+    METRICS = {
+        "cpu": get_cpu_usage
+    }
 
     def collect_metrics(self):
         """
@@ -10,5 +13,5 @@ class MetricProducer(object):
         :return: Dictionary of dictionaries
         """
         return {
-            'cpu': get_cpu_usage()
+            key: value() for key, value in self.METRICS.items()
         }
