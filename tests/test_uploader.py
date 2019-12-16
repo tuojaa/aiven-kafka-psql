@@ -1,7 +1,7 @@
 import unittest
 
 from producer import MetricProducer
-from upload_metrics import Uploader
+from uploader import Uploader
 
 
 class TestUploader(unittest.TestCase):
