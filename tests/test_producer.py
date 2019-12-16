@@ -1,6 +1,6 @@
 import unittest
 
-from producer import MetricProducer
+from impl.producer import MetricProducer
 
 
 class TestProducer(unittest.TestCase):

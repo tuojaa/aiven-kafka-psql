@@ -1,4 +1,4 @@
-from metrics import get_cpu_usage, get_memory_usage
+from impl.metrics import get_cpu_usage, get_memory_usage
 
 
 class MetricProducer(object):

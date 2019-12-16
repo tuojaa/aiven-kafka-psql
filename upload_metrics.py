@@ -8,8 +8,8 @@ import time
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
 
-from producer import MetricProducer
-from uploader import Uploader
+from impl.producer import MetricProducer
+from impl.uploader import Uploader
 
 logger = logging.getLogger(__name__)
 

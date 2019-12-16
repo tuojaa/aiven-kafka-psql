@@ -1,8 +1,8 @@
 import unittest
 from datetime import datetime, timedelta
 
-from producer import MetricProducer
-from uploader import Uploader
+from impl.producer import MetricProducer
+from impl.uploader import Uploader
 
 
 class TestUploader(unittest.TestCase):

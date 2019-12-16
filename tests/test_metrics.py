@@ -1,6 +1,6 @@
 import unittest
 
-import metrics
+from impl import metrics
 
 
 class TestMetrics(unittest.TestCase):
