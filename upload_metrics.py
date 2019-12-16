@@ -28,8 +28,6 @@ class Uploader(object):
         """
         Uploads metrics from producer to connection.
 
-        :param producer: MetricProducer instance
-        :param connection: Apache Kafka producer
         :return:
         """
 

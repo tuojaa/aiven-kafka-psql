@@ -13,5 +13,5 @@ class MetricProducer(object):
         :return: Dictionary of dictionaries
         """
         return {
-            key: value() for key,value in self.METRICS.items()
+            key: value() for key, value in self.METRICS.items()
         }

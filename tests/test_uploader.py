@@ -26,11 +26,11 @@ class TestUploader(unittest.TestCase):
                 self.topic = topic
                 self.data = data
 
-        testMetrics = {'a': 1, 'b': 2}
+        mock_metric_data = {'a': 1, 'b': 2}
 
         class MockProducer(MetricProducer):
             METRICS = {
-                "test": lambda: testMetrics
+                "test": lambda: mock_metric_data
             }
 
         conn = MockConnection()
@@ -48,6 +48,6 @@ class TestUploader(unittest.TestCase):
         self.assertEqual(conn.topic, u.topic)
         self.assertDictEqual({
             "host": u.hostname,
-            "metrics": {"test": testMetrics}
+            "metrics": {"test": mock_metric_data}
         }, conn.data)
 
