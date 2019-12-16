@@ -15,3 +15,17 @@ def get_cpu_usage():
         "system": times.system/total,
         "idle": times.idle/total
     }
+
+def get_memory_usage():
+    """
+    Returns memory usage as used/avail as values between 0-1
+
+    :return: dictionary containing used and avail as keys
+    """
+    mem = psutil.virtual_memory()
+    total = mem.used + mem.available
+
+    return {
+        "used": mem.used / total,
+        "avail": mem.available / total
+    }
