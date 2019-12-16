@@ -12,3 +12,4 @@ class TestProducer(unittest.TestCase):
 
         self.assertTrue(type(metrics) is dict)
         self.assertIn('cpu', metrics)
+        self.assertTrue(type(metrics['cpu']) is dict)
