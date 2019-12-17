@@ -7,9 +7,8 @@ import sys
 import psycopg2
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
-from psycopg2._psycopg import parse_dsn
 
-from kafka_to_psql import insert_message_to_psql
+from impl.kafka_to_psql import insert_message_to_psql
 
 if __name__=="__main__":
 
