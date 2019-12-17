@@ -1,6 +1,6 @@
 import unittest
 
-from impl.producer import MetricProducer
+from aiven_kafka_psql.impl.producer import MetricProducer
 
 
 class TestProducer(unittest.TestCase):

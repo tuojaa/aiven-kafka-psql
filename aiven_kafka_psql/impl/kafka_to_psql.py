@@ -1,5 +1,3 @@
-import datetime
-
 from psycopg2.extras import execute_values
 
 

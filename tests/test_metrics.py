@@ -1,6 +1,6 @@
 import unittest
 
-from impl import metrics
+from aiven_kafka_psql.impl import metrics
 
 
 class TestMetrics(unittest.TestCase):

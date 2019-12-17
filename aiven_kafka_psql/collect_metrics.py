@@ -8,13 +8,12 @@ import time
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
 
-from impl.producer import MetricProducer
-from impl.uploader import Uploader
+from aiven_kafka_psql.impl.producer import MetricProducer
+from aiven_kafka_psql.impl.uploader import Uploader
 
 logger = logging.getLogger(__name__)
 
-if __name__=="__main__":
-
+def main():
     parser = argparse.ArgumentParser(description='Upload system metrics to Apache Kafka')
     parser.add_argument('--server', dest='server', action='store',
                         default=None,
@@ -73,3 +72,6 @@ if __name__=="__main__":
 
         logger.info("Metrics uploaded")
         time.sleep(1)
+
+if __name__=="__main__":
+    main()

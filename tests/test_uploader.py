@@ -1,8 +1,8 @@
 import unittest
 from datetime import datetime, timedelta
 
-from impl.producer import MetricProducer
-from impl.uploader import Uploader
+from aiven_kafka_psql.impl.producer import MetricProducer
+from aiven_kafka_psql.impl.uploader import Uploader
 
 
 class TestUploader(unittest.TestCase):

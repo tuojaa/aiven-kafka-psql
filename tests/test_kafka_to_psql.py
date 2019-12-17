@@ -1,6 +1,6 @@
 import unittest
 
-from impl.kafka_to_psql import message_to_value_lists
+from aiven_kafka_psql.impl.kafka_to_psql import message_to_value_lists
 
 
 class TestKafkaToPSQL(unittest.TestCase):

@@ -8,10 +8,10 @@ import psycopg2
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
 
-from impl.kafka_to_psql import insert_message_to_psql
+from aiven_kafka_psql.impl.kafka_to_psql import insert_message_to_psql
 
-if __name__=="__main__":
 
+def main():
     parser = argparse.ArgumentParser(description='Forward metrics from Kafka to PostgreSQL')
     parser.add_argument('--server', dest='server', action='store',
                         default=None,
@@ -85,3 +85,6 @@ if __name__=="__main__":
     except KafkaError as e:
         print("Error in Kafka: %s" % (e,))
         sys.exit(1)
+
+if __name__=="__main__":
+    main()
