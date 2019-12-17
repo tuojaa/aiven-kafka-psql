@@ -1,0 +1,10 @@
+/ca.pem
+/service.cert
+/service.key
+/venv/
+/.idea/.gitignore
+/.idea/aiven-kafka-psql.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml

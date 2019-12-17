@@ -1,0 +1,137 @@
+README
+======
+
+
+Exercise
+========
+
+Your task is to implement a system that generates operating system metrics and
+passes the events through Aiven Kafka instance to Aiven PostgreSQL database.
+For this, you need a Kafka producer which sends data to a Kafka topic, and a
+Kafka consumer storing the data to Aiven PostgreSQL database. For practical
+reasons, these components may run in the same machine (or container or whatever
+system you choose), but in production use similar components would run in
+different systems.
+
+You can choose what metric or metrics you collect and send. You can implement
+metrics collection by yourself or use any available tools or libraries.
+
+Installation
+============
+
+This implementation depends on three Python packages (listed in requirements.txt):
+
+  - kafka-python
+  - psycopg2
+  - psutil
+
+Additionally nose is used for running test cases (simply run nosetests to run all test cases)
+
+To install the command line scripts, run:
+
+python setup.py install
+
+How to use
+==========
+
+This implementation has two scripts:
+
+  - aiven-collect
+  - aiven-psql
+
+The script aiven-collect collects system metrics (CPU and memory usage at this point) and publishes them through
+Apache Kafka topic.
+
+The script aiven-psql listens to Apache Kafka topic for metrics and inserts them into PostgreSQL database.
+
+Currently CPU usage (userland, kernel and idle times) and memory usage (available and used memory) are collected. The
+scripts are designed to be flexible enough to allow additional metrics implemented very easily.
+
+aiven-collect
+=============
+
+usage: aiven-collect [-h] [--server SERVER] [--ca CA] [--cert CERT]
+                     [--key KEY] [-v]
+
+Upload system metrics to Apache Kafka
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --server SERVER  Kafka bootstrap server
+  --ca CA          Kafka CA file
+  --cert CERT      Kafka server certificate file
+  --key KEY        Kafka server key file
+  -v               Verbosity
+
+Kafka bootstrap server can be also supplied via KAFKA_SERVER environment variable for extra security and convenience
+
+aiven-psql
+==========
+
+usage: aiven-psql [-h] [--server SERVER] [--psql PSQL] [--ca CA] [--cert CERT]
+                  [--key KEY] [-v]
+
+Forward metrics from Kafka to PostgreSQL
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --server SERVER  Kafka bootstrap server
+  --psql PSQL      PostgreSQL server
+  --ca CA          Kafka CA file
+  --cert CERT      Kafka server certificate file
+  --key KEY        Kafka server key file
+  -v               Verbosity
+
+Kafka bootstrap server can be also supplied via KAFKA_SERVER environment variable for extra security and convenience
+PostgreSQL server can be also supplied via PSQL_SERVER environment variable for extra security and convenience
+
+
+PostgreSQL schema
+=================
+
+Following schema is used to store metrics in PostgreSQL database:
+
+-- Table: public.metrics
+
+-- DROP TABLE public.metrics;
+
+CREATE TABLE public.metrics
+(
+    id integer NOT NULL DEFAULT nextval('metrics_id_seq'::regclass),
+    hostname character varying(32) COLLATE pg_catalog."default" NOT NULL,
+    metric character varying(8) COLLATE pg_catalog."default" NOT NULL,
+    submetric character varying(8) COLLATE pg_catalog."default",
+    value real NOT NULL,
+    "timestamp" timestamp with time zone,
+    CONSTRAINT metrics_pkey PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.metrics
+    OWNER to avnadmin;
+
+
+Hostname will contain unique hostname as returned from socket.gethostname(), timestamp contains the local time from the
+host metrics were collected from. Fields metric and submetric indicate which metric is in question, and value is the
+value for that metric.
+
+Discussion
+==========
+
+This implementation has a few shortcomings:
+
+  - Number of metrics is rather low, so it might not be extremely useful as it is right now
+  - Error handling and recovery is extremely limited / non-existant. It would require more user requirements to evaluate
+  the proper way and depth in order to implement these. Currently, the scripts will exit in case of network errors. It
+  might be useful for the scripts to keep trying to push the metrics, or even cache the metrics, while network or server
+  is gone
+  - Scripts are not extremely user friendly, even though they work as intended.
+  - Additional configurability might be useful, e.g. selecting topic name for Kafka
+  - Error messages are based on Python exceptions.
+  - PostgreSQL schema is wasteful. It would be more efficient to use separate tables for metric/submetric names and
+  references to them. However, this is a compromise for both development time as well as solution clarity at this point
+  - Integration to system services is missing. It would be useful to include e.g. systemd ready config files
+  - Solution does not include CI / CD as it does not produce deliverable package files right now.
